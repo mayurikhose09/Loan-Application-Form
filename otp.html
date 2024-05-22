@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Confirmation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form class="data">
+  <h2>Loan Confirmation and OTP</h2>
+  <p>Dear <span id="firstName"></span>,</p>
+  <p>Thank you for your inquiry. A 4-digit verification number has been sent to your email: <span id="email"></span>.</p>
+
+  <p>Your 4-digit OTP: <span id="generatedOTP"></span></p>
+
+  <label for="otp">Enter OTP:</label>
+  <input type="text" id="otp" name="otp" required>
+
+  <button type="button" onclick="validateOTP()">Validate</button>
+</form>
+  <script src="index.js"></script>
+  <script>
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const firstName = urlParams.get('fullName').split(' ')[0];
+    const email = urlParams.get('email');
+
+    
+    document.getElementById('firstName').innerText = firstName;
+    document.getElementById('email').innerText = email;
+
+    // otp ganeration and diplay on page
+    const generatedOTP = Math.floor(1000 + Math.random() * 9000);
+    document.getElementById('generatedOTP').innerText = generatedOTP;
+
+    let attempts = 0;
+
+  function validateOTP() {
+    const enteredOTP = document.getElementById('otp').value;
+
+    if (enteredOTP === generatedOTP.toString()) {
+      // correct OTP
+      window.location.href = 'https://www.google.com';
+    } else {
+      // incorrect OTP
+      attempts++;
+
+      if (attempts >= 3) {
+        let attempts = 0;
+
+  function validateOTP() {
+    const enteredOTP = document.getElementById('otp').value;
+
+    if (enteredOTP === generatedOTP.toString()) {
+      // Valid OTP, redirect to google.com
+      window.location.href = 'https://www.google.com';
+    } else {
+      // Invalid OTP
+      attempts++;
+
+      if (attempts >= 3) {
+        // show 'Validation Failed!'
+        document.getElementById('validationMessage').innerText = 'Validation Failed!';
+        document.getElementById('validateButton').disabled = true;
+      } else {
+        // Show alert for incorrect & multiple attempt
+        alert('Please enter the correct OTP. Attempts left: ' + (3 - attempts));
+      }
+    }
+  }
+        document.getElementById('validationMessage').innerText = 'Validation Failed!';
+        document.getElementById('validateButton').disabled = true;
+      } else {
+        // Show alert for incorrect attempt
+        alert('Please enter the correct OTP. Attempts left: ' + (3 - attempts));
+      }
+    }
+  }
+  </script>
+</body>
+</html>
